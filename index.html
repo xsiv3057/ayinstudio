@@ -172,12 +172,28 @@
   /* 영상 재생 창 */
   .modal { position:fixed; inset:0; z-index:100; background:rgba(5,5,6,.92); display:none; place-items:center; padding:5vw; }
   .modal.on { display:grid; }
-  .modal .box { width:min(1180px, 100%); }
+  .modal .box { width:min(1180px, 100%, (100svh - 110px) * 1.7778); }
   .modal .frame { aspect-ratio:16/9; background:#000; border-radius:13px; overflow:hidden; }
   .modal iframe, .modal video { width:100%; height:100%; border:0; display:block; background:#000; }
   .modal .cap { display:flex; justify-content:space-between; gap:var(--s4); margin-top:var(--s3); color:var(--sub); font-size:13px; }
   .modal .cap b { color:var(--ink); font-size:var(--f0); }
   .modal .x { position:absolute; top:var(--s4); right:var(--s4); font-size:34px; line-height:1; color:var(--ink); padding:var(--s2); }
+
+  /* 좁은 화면용 메뉴 */
+  .burger { display:none; width:44px; height:44px; margin-right:-11px; position:relative; }
+  .burger i { position:absolute; left:11px; right:11px; top:50%; height:1.5px; background:var(--ink); transition:transform .25s; }
+  .burger i:first-child { transform:translateY(-4px); } .burger i:last-child { transform:translateY(4px); }
+  .burger[aria-expanded="true"] i:first-child { transform:rotate(45deg); } .burger[aria-expanded="true"] i:last-child { transform:rotate(-45deg); }
+  .sheet { position:fixed; inset:0; z-index:49; background:rgba(12,12,13,.97); backdrop-filter:blur(13px); display:none; flex-direction:column; justify-content:center;
+    padding:89px var(--pad) var(--s6); }
+  .sheet.on { display:flex; }
+  .sheet a { display:flex; justify-content:space-between; align-items:baseline; padding:var(--s3) 0; border-bottom:1px solid var(--line); font-size:var(--f2); font-weight:700; letter-spacing:-.02em; }
+  .sheet a span { font-family:var(--display); font-size:var(--f-2); font-weight:400; letter-spacing:.3em; color:var(--dim); text-transform:uppercase; }
+  .sheet .call { margin-top:var(--s5); border:0; justify-content:center; background:var(--ink); color:var(--bg); border-radius:999px; font-size:var(--f0); padding:var(--s3); }
+  .swipe-bar { display:none; height:2px; background:var(--line); margin-top:var(--s4); border-radius:2px; overflow:hidden; }
+  .swipe-bar i { display:block; height:100%; width:38.2%; background:var(--accent); border-radius:2px; will-change:transform; }
+  .more { display:none; width:100%; margin-top:var(--s4); padding:var(--s3); border:1px solid var(--line); border-radius:999px; color:var(--ink); font-weight:600; font-size:15px; }
+  @media (hover:none) { .feat .card .play { opacity:1; transform:none; } .card:active .thumb { filter:none; } }
 
   .rv { opacity:0; transform:translateY(21px); transition:opacity .8s, transform .8s cubic-bezier(.2,.7,.2,1); }
   .rv.in { opacity:1; transform:none; }
@@ -198,6 +214,104 @@
     .credits .row { grid-template-columns:55px 1fr; }
     .credits .c { grid-column:2; text-align:left; }
     .teach .row { grid-template-columns:55px 1fr; }
+  }
+  /* ── 휴대폰(640px 이하): 한 줄로 쌓지 않고 화면에 맞게 다시 짬 ──
+     대표작은 옆으로 넘기는 카드, 전체 작업은 썸네일 38.2% : 글 61.8% 목록, 수상은 한 줄 목록 */
+  @media (max-width: 860px) {
+    .burger { display:block; }
+    .menu { gap:var(--s2); }
+  }
+  @media (max-width: 640px) {
+    section { padding:var(--s6) 0; }
+    .nav .wrap { height:55px; }
+    .brand { gap:var(--s2); font-size:12px; letter-spacing:.2em; }
+    .brand svg { width:29px; height:18px; }
+    .menu .cta { padding:7px var(--s3); font-size:12.6px; }
+
+    .hero { align-items:flex-end; }
+    .hero .wrap { padding-top:89px; padding-bottom:max(var(--s5), env(safe-area-inset-bottom) + var(--s4)); }
+    .hero .shade { background:linear-gradient(180deg, rgba(12,12,13,.62) 0%, rgba(12,12,13,.12) 23.6%, rgba(12,12,13,.34) 38.2%, rgba(12,12,13,.72) 55%, rgba(12,12,13,.94) 80%, var(--bg) 100%); }
+    .hero .eyebrow { letter-spacing:.24em; white-space:nowrap; }
+    .hero h1 { font-size:min(var(--f3), 10.6vw); }
+    .hero p { font-size:15px; margin-top:var(--s3); }
+    .btns { display:grid; grid-template-columns:1fr 1fr; gap:var(--s2); margin-top:var(--s4); }
+    .btn { justify-content:center; padding:var(--s3) var(--s2); font-size:15px; }
+    .btns a[href="#contact"] { display:none; }
+
+    .clients { padding:var(--s4) 0; }
+    .clients .wrap { display:block; }
+    .clients ul { display:grid; grid-template-columns:1fr 1fr; gap:var(--s2) var(--s3); margin-top:var(--s3); font-size:14px; font-weight:500; color:var(--sub); }
+
+    /* 대표작: 옆으로 넘기는 카드 */
+    .feat { display:flex; gap:var(--s3); overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+      margin:var(--s5) calc(var(--pad) * -1) 0; padding:0 var(--pad); scroll-padding:0 var(--pad); }
+    .feat::-webkit-scrollbar { display:none; }
+    .feat::after { content:""; flex:0 0 1px; }
+    .feat-top, .feat-side, .feat-row { display:contents; }
+    .feat .card, .feat-side .card { flex:0 0 82%; scroll-snap-align:start; height:auto; }
+    .feat-top .big { aspect-ratio:auto; }
+    .feat .card .thumb, .feat-top .big .thumb, .feat-side .card .thumb { position:static; height:auto; aspect-ratio:16/9; filter:none; }
+    .feat .card .info, .feat-top .big .info { position:static; background:none; padding:var(--s3) var(--s3) var(--s4); display:block; }
+    .feat-top .big .ttl, .feat .card .ttl { font-size:var(--f0); }
+    .swipe-bar { display:block; }
+
+    /* 전체 작업: 분류는 옆으로 밀고, 작업은 목록으로 */
+    .chips { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin:var(--s4) calc(var(--pad) * -1) 0; padding:0 var(--pad); }
+    .chips::-webkit-scrollbar { display:none; }
+    .chip { flex:none; padding:10px var(--s3); font-size:14px; }
+    .grid { grid-template-columns:1fr; gap:0; margin-top:var(--s4); border-top:1px solid var(--line); }
+    .grid .card { display:grid; grid-template-columns:38.2fr 61.8fr; gap:var(--s3); align-items:center; padding:var(--s3) 0; border-bottom:1px solid var(--line); }
+    .grid .card .thumb { border-radius:5px; }
+    .grid .card .info { padding:0; }
+    .grid .card .meta { font-size:11.5px; letter-spacing:0; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .grid .card .ttl { font-size:15px; margin-top:1px; display:-webkit-box !important; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+    .grid .card .role { font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .grid .card .play { display:none; }
+    .more.on { display:block; }
+    .credits { margin-top:var(--s6); }
+    .credits .row { font-size:15px; gap:2px var(--s3); }
+
+    /* 수상: 월계관을 작은 표식으로 줄인 목록 */
+    .laurels { gap:0; margin-top:var(--s5); border-top:1px solid var(--line); }
+    .laurel { display:block; min-height:0; text-align:left; padding:var(--s3) 0 var(--s3) 55px; border-bottom:1px solid var(--line); }
+    .laurel svg { width:18px; height:44px; opacity:.8; }
+    .laurel svg.l { left:0; } .laurel svg.r { left:21px; right:auto; }
+    .laurel br.w { display:none; }
+    .laurel .prize { font-size:15px; margin-top:3px; }
+
+    .about p { font-size:15px; }
+    .facts { margin-top:var(--s5); }
+    .fact b { font-size:var(--f0); }
+    .svc { margin-top:var(--s3); }
+    .svc li { padding:var(--s3) 0; }
+    .svc b { font-size:var(--f0); }
+    .teach .rows { margin-top:var(--s5); }
+    .teach .row { padding:var(--s3) 0; }
+    .teach b { font-size:var(--f0); }
+
+    .contact h2 { font-size:min(34px, 9vw); }
+    .contact .lines { flex-direction:column; gap:var(--s2); margin-top:var(--s5); font-size:17px; }
+    .contact .lines a { display:flex; flex-direction:column; align-items:center; gap:1px; padding:var(--s3); border:1px solid var(--line); border-radius:13px; }
+    .contact .lines a::before { content:attr(data-l); font-size:12px; font-weight:400; color:var(--sub); }
+    .contact .lines a:first-child { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+    .contact .lines a:first-child::before { color:#55524c; }
+    .contact small { margin-top:var(--s4); }
+    footer .wrap { flex-direction:column; gap:2px; }
+
+    .modal { padding:0; background:rgba(5,5,6,.97); }
+    .modal .frame { border-radius:0; }
+    .modal .cap { flex-direction:column; gap:var(--s1); padding:0 var(--pad); }
+    .modal .cap #mc { text-align:left !important; }
+    .modal .x { top:var(--s2); right:var(--s2); width:44px; height:44px; padding:0; }
+  }
+  @media (max-width: 360px) {
+    .menu .cta { display:none; }
+    .hero .eyebrow { letter-spacing:.13em; }
+  }
+  @media (max-height: 520px) and (orientation: landscape) {
+    .modal { padding:0; } .modal .cap { display:none; } .modal .frame { border-radius:0; }
+    .modal .box { width:min(100%, 100svh * 1.7778); }
+    .hero .wrap { padding-top:89px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior:auto; } .rv { opacity:1; transform:none; transition:none; } .card .thumb { transition:none; }
@@ -232,9 +346,19 @@
     <nav class="menu">
       <a href="#work">Work</a><a href="#awards">Awards</a><a href="#about">About</a><a href="#teach">Class</a>
       <a class="cta" href="#contact">문의하기</a>
+      <button class="burger" id="burger" type="button" aria-label="메뉴" aria-expanded="false" aria-controls="sheet"><i></i><i></i></button>
     </nav>
   </div>
 </header>
+
+<nav class="sheet" id="sheet" aria-label="메뉴">
+  <a href="#work">작업 <span>Work</span></a>
+  <a href="#awards">수상 <span>Awards</span></a>
+  <a href="#about">소개 <span>About</span></a>
+  <a href="#teach">강의 <span>Class</span></a>
+  <a href="#contact">문의 <span>Contact</span></a>
+  <a class="call" href="tel:01033235045">전화 문의 010-3323-5045</a>
+</nav>
 
 <main id="top">
   <section class="hero">
@@ -269,6 +393,7 @@
         <p class="lead">썸네일을 누르면 영상이 바로 재생됩니다.</p>
       </div>
       <div class="feat rv" id="feat"></div>
+      <div class="swipe-bar" id="featBar" aria-hidden="true"><i></i></div>
 
       <div class="rv" style="margin-top:clamp(72px,9vw,120px)">
         <div class="eyebrow">All Work</div>
@@ -276,6 +401,7 @@
         <div class="chips" id="chips" role="tablist" aria-label="작업 분류"></div>
       </div>
       <div class="grid" id="grid"></div>
+      <button class="more" id="more" type="button"></button>
 
       <div class="credits rv" id="credits"></div>
     </div>
@@ -290,17 +416,17 @@
       </div>
       <div class="laurels rv">
         <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
-          <div class="fest">Christian Worldview<br>Film Festival 2022</div><div class="prize">단편 영화 부문 최우수상<br>관객 투표 부문 우수상</div></div>
+          <div class="fest">Christian Worldview <br class="w">Film Festival 2022</div><div class="prize">단편 영화 부문 최우수상<br>관객 투표 부문 우수상</div></div>
         <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
-          <div class="fest">Christian Family<br>Film Festival 2022</div><div class="prize">단편 복음 영화 부문 은상</div></div>
+          <div class="fest">Christian Family <br class="w">Film Festival 2022</div><div class="prize">단편 복음 영화 부문 은상</div></div>
         <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
-          <div class="fest">Int'l Christian Film<br>&amp; Music Festival 2023</div><div class="prize">가장 영감을 주는<br>다큐멘터리 수상</div></div>
+          <div class="fest">Int'l Christian Film <br class="w">&amp; Music Festival 2023</div><div class="prize">가장 영감을 주는 <br class="w">다큐멘터리 수상</div></div>
         <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
-          <div class="fest">Content Film Festival<br>&amp; Media Summit 2022</div><div class="prize">박해 부문 공식 수상작</div></div>
+          <div class="fest">Content Film Festival <br class="w">&amp; Media Summit 2022</div><div class="prize">박해 부문 공식 수상작</div></div>
         <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
-          <div class="fest">Int'l Christian<br>Visual Media 2022</div><div class="prize">학생 영화 부문 동상</div></div>
+          <div class="fest">Int'l Christian <br class="w">Visual Media 2022</div><div class="prize">학생 영화 부문 동상</div></div>
         <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
-          <div class="fest">Christian Georgia<br>Film Festival 2022</div><div class="prize">최종 후보작</div></div>
+          <div class="fest">Christian Georgia <br class="w">Film Festival 2022</div><div class="prize">최종 후보작</div></div>
       </div>
     </div>
   </section>
@@ -349,8 +475,8 @@
       <div class="eyebrow">Contact</div>
       <h2>영상이 필요하신가요?</h2>
       <div class="lines">
-        <a href="tel:01033235045">010-3323-5045</a>
-        <a href="mailto:ayinstudio1@gmail.com">ayinstudio1@gmail.com</a>
+        <a href="tel:01033235045" data-l="전화 걸기">010-3323-5045</a>
+        <a href="mailto:ayinstudio1@gmail.com" data-l="이메일 보내기">ayinstudio1@gmail.com</a>
       </div>
       <small>이찬우 PD · 경기도 용인시 기흥구 · 견적과 일정 문의는 전화나 이메일로 편하게 주세요.</small>
     </div>
@@ -389,11 +515,26 @@
     '<div class="feat-top">' + big + '<div class="feat-side">' + feat.slice(1, 3).map(card).join("") + '</div></div>' +
     '<div class="feat-row">' + feat.slice(3).map(card).join("") + '</div>';
   // 전체 작업 + 분류
+  // 휴대폰에서는 처음에 8편만 보여 주고 나머지는 "더 보기"로 펼침
   var grid = document.getElementById("grid"), chips = document.getElementById("chips"), cur = "all";
+  var phone = window.matchMedia("(max-width: 640px)"), more = document.getElementById("more"), FIRST = 8, opened = false;
   function draw() {
     var list = W.filter(function (w) { return cur === "all" || w.cat === cur; });
-    grid.innerHTML = list.map(card).join("");
+    var cut = phone.matches && cur === "all" && !opened && list.length > FIRST;
+    grid.innerHTML = (cut ? list.slice(0, FIRST) : list).map(card).join("");
+    more.classList.toggle("on", cut);
+    if (cut) more.textContent = "나머지 " + (list.length - FIRST) + "편 더 보기";
   }
+  more.addEventListener("click", function () { opened = true; draw(); });
+  (phone.addEventListener ? phone.addEventListener("change", draw) : phone.addListener(draw));
+  // 대표작 넘김 위치 표시줄
+  (function () {
+    var f = document.getElementById("feat"), bar = document.querySelector("#featBar i");
+    f.addEventListener("scroll", function () {
+      var max = f.scrollWidth - f.clientWidth, r = max > 0 ? Math.min(1, Math.max(0, f.scrollLeft / max)) : 0;
+      bar.style.transform = "translateX(" + (r * 161.8).toFixed(1) + "%)";
+    }, { passive: true });
+  })();
   chips.innerHTML = C.map(function (c) {
     var n = c.key === "all" ? W.length : W.filter(function (w) { return w.cat === c.key; }).length;
     return '<button class="chip' + (c.key === "all" ? " on" : "") + '" role="tab" data-k="' + c.key + '">' + c.label + ' <span style="opacity:.55">' + n + '</span></button>';
@@ -401,6 +542,7 @@
   chips.addEventListener("click", function (e) {
     var b = e.target.closest(".chip"); if (!b) return;
     cur = b.dataset.k; chips.querySelectorAll(".chip").forEach(function (x) { x.classList.toggle("on", x === b); }); draw();
+    if (b.scrollIntoView && phone.matches) b.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   });
   draw();
   // 링크 없는 이력
@@ -436,18 +578,32 @@
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && modal.classList.contains("on")) close(); });
 
-  // 첫 화면 배경: 쇼릴 장면 모음 (소리 없이 반복). 영상이 준비되기 전에는 정지 화면을 보여 줌
+  // 첫 화면 배경: 쇼릴 장면 모음 (소리 없이 반복). 세로 화면 휴대폰에는 세로로 잘라 둔 가벼운 파일을 씀
   var bg = document.getElementById("heroBg"), heroV = null;
-  bg.style.backgroundImage = "url(assets/hero.jpg)";
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  var tall = window.matchMedia("(max-width: 640px) and (orientation: portrait)").matches;
+  var heroSrc = tall ? "assets/hero_m" : "assets/hero";
+  var saver = navigator.connection && navigator.connection.saveData;
+  bg.style.backgroundImage = "url(" + heroSrc + ".jpg)";
+  if (!saver && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     heroV = document.createElement("video");
     heroV.muted = true; heroV.loop = true; heroV.autoplay = true; heroV.playsInline = true;
     heroV.setAttribute("muted", ""); heroV.setAttribute("playsinline", ""); heroV.setAttribute("aria-hidden", "true");
-    heroV.preload = "auto"; heroV.poster = "assets/hero.jpg"; heroV.src = "assets/hero.mp4";
+    heroV.preload = "auto"; heroV.poster = heroSrc + ".jpg"; heroV.src = heroSrc + ".mp4";
     heroV.addEventListener("playing", function () { heroV.classList.add("on"); }, { once: true });
     bg.appendChild(heroV);
     heroV.play().catch(function () {});
   }
+
+  // 좁은 화면 메뉴
+  var burger = document.getElementById("burger"), sheet = document.getElementById("sheet");
+  function setSheet(on) {
+    sheet.classList.toggle("on", on); burger.setAttribute("aria-expanded", on ? "true" : "false");
+    document.body.style.overflow = on ? "hidden" : "";
+  }
+  burger.addEventListener("click", function () { setSheet(!sheet.classList.contains("on")); });
+  sheet.addEventListener("click", function (e) { if (e.target.closest("a")) setSheet(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sheet.classList.contains("on")) setSheet(false); });
+  document.querySelector(".menu .cta").addEventListener("click", function () { setSheet(false); });
 
   // 메뉴 배경, 등장 효과
   var nav = document.getElementById("nav");
