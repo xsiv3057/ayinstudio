@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AYIN STUDIO · 아인스튜디오</title>
+<meta name="description" content="기획부터 촬영, 편집까지. 공공기관·교육기관·방송 영상을 만드는 아인스튜디오입니다.">
+<!-- 임시 주소에서 검토하는 동안 검색 노출을 막아 둠. ayinstudio.com 연결할 때 아래 한 줄을 지울 것 -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0c0c0d">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AYIN STUDIO 아인스튜디오">
+<meta property="og:title" content="AYIN STUDIO · 아인스튜디오">
+<meta property="og:description" content="기획부터 촬영, 편집까지. 공공기관·교육기관·방송 영상을 만드는 아인스튜디오입니다.">
+<meta property="og:url" content="https://ayinstudio.com/">
+<meta property="og:image" content="https://ayinstudio.com/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  /* ── 황금비(φ = 1.618) 기준 설계 ─────────────────────────────
+     글자 크기  10 · 12.6 · 16 · 20.4 · 25.9 · 41.9 · 67.8px  (16px 기준, √φ·φ 배수)
+     줄 간격    1.618
+     간격 단계  5 · 8 · 13 · 21 · 34 · 55 · 89 · 144px (피보나치)
+     분할      대표작·소개 영역 61.8 : 38.2 / 첫 화면 문구는 화면 높이 61.8% 지점에서 시작
+     대표작 큰 카드는 1.618 : 1 황금 직사각형 (영상 썸네일 원본은 16:9 유지)
+  ──────────────────────────────────────────────────────── */
+  :root {
+    --bg:#0c0c0d; --surface:#151517; --raise:#1c1c1f; --line:#2a2a2e;
+    --ink:#efeae0; --sub:#a39e94; --dim:#6f6b64; --accent:#d8c8a0;
+    --display:"Syncopate", "Pretendard Variable", sans-serif;
+    --body:"Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    --f-2:10px; --f-1:12.6px; --f0:16px; --f1:20.4px; --f2:25.9px; --f3:41.9px; --f4:67.8px;
+    --s1:5px; --s2:8px; --s3:13px; --s4:21px; --s5:34px; --s6:55px; --s7:89px; --s8:144px;
+    --pad: clamp(21px, 5vw, 89px);
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:var(--f0); line-height:1.618;
+    word-break:keep-all; -webkit-font-smoothing:antialiased; }
+  a { color:inherit; text-decoration:none; }
+  img { display:block; max-width:100%; }
+  button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+  .wrap { max-width:1280px; margin:0 auto; padding:0 var(--pad); }
+  .eyebrow { font-family:var(--display); font-size:var(--f-2); letter-spacing:.32em; text-transform:uppercase; color:var(--accent); }
+  h2 { font-size:clamp(var(--f2), 4vw, var(--f3)); line-height:1.236; font-weight:700; letter-spacing:-.02em; margin:var(--s3) 0 0; }
+  section { padding:clamp(var(--s7), 10vw, var(--s8)) 0; }
+  .lead { color:var(--sub); font-size:clamp(var(--f0), 1.5vw, var(--f1)); max-width:61.8%; margin:var(--s4) 0 0; }
+
+  /* 상단 메뉴 */
+  .nav { position:fixed; inset:0 0 auto 0; z-index:50; transition:background .3s, border-color .3s; border-bottom:1px solid transparent; }
+  .nav.solid { background:rgba(12,12,13,.86); backdrop-filter:blur(13px); border-color:var(--line); }
+  .nav .wrap { display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .brand { display:flex; align-items:center; gap:var(--s3); font-family:var(--display); font-weight:700; font-size:13px; letter-spacing:.22em; }
+  .brand svg { width:34px; height:21px; }
+  .menu { display:flex; align-items:center; gap:clamp(var(--s4), 3vw, var(--s5)); font-size:13px; color:var(--sub); }
+  .menu a:hover { color:var(--ink); }
+  .menu .cta { color:var(--bg); background:var(--ink); padding:var(--s2) var(--s4); border-radius:999px; font-weight:600; }
+  .menu .cta:hover { color:var(--bg); background:#fff; }
+
+  /* 첫 화면: 문구가 화면 높이 61.8% 지점에서 시작 */
+  .hero { position:relative; min-height:100svh; display:flex; align-items:flex-start; padding:0; overflow:hidden; }
+  .hero .bg { position:absolute; inset:0; background:#000 center/cover no-repeat; }
+  .hero .bg video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; opacity:0; transition:opacity 1.2s; }
+  .hero .bg video.on { opacity:1; }
+  .hero .shade { position:absolute; inset:0; background:
+      linear-gradient(180deg, rgba(12,12,13,.7) 0%, rgba(12,12,13,.34) 38.2%, rgba(12,12,13,.82) 76%, var(--bg) 100%),
+      linear-gradient(90deg, rgba(12,12,13,.55) 0%, rgba(12,12,13,0) 61.8%); }
+  .hero .wrap { position:relative; width:100%; padding-top:max(61.8svh - 34px, 233px); padding-bottom:var(--s6); }
+  .hero .text { max-width:61.8%; }
+  .hero h1 { font-size:clamp(var(--f3), 5.4vw, var(--f4)); line-height:1.146; font-weight:800; letter-spacing:-.035em; margin:var(--s3) 0 0; }
+  .hero h1 em { font-style:normal; color:var(--accent); }
+  .hero p { color:#d4cfc4; font-size:clamp(var(--f0), 1.5vw, var(--f1)); margin:var(--s4) 0 0; }
+  .btns { display:flex; flex-wrap:wrap; gap:var(--s3); margin-top:var(--s5); }
+  .btn { display:inline-flex; align-items:center; padding:var(--s3) var(--s5); border-radius:999px; font-weight:600; font-size:var(--f0); border:1px solid rgba(239,234,224,.35); }
+  .btn.fill { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+  .btn:hover { border-color:var(--ink); }
+  .btn svg { margin-right:var(--s2); }
+  button.btn { background:none; color:inherit; font-family:inherit; cursor:pointer; }
+  button.btn.fill { background:var(--ink); color:var(--bg); }
+  .btn.fill:hover { background:#fff; }
+
+  /* 거래처 띠 */
+  .clients { padding:var(--s5) 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .clients .wrap { display:flex; align-items:center; gap:clamp(var(--s4), 3vw, var(--s6)); flex-wrap:wrap; }
+  .clients .eyebrow { color:var(--dim); flex:none; }
+  .clients ul { display:flex; flex-wrap:wrap; gap:var(--s2) clamp(var(--s4), 3vw, var(--s5)); list-style:none; margin:0; padding:0;
+    font-size:clamp(var(--f0), 1.5vw, var(--f1)); font-weight:600; color:#cfcabf; }
+
+  /* 카드 공통 */
+  .card { position:relative; display:block; border-radius:13px; overflow:hidden; background:var(--surface); text-align:left; width:100%; }
+  .card .thumb { aspect-ratio:16/9; width:100%; object-fit:cover; transition:transform .6s cubic-bezier(.2,.7,.2,1), filter .4s; filter:saturate(.92) brightness(.86); }
+  .card:hover .thumb, .card:focus-visible .thumb { transform:scale(1.045); filter:none; }
+  .card .info { position:absolute; inset:auto 0 0 0; padding:var(--s6) var(--s4) var(--s3); background:linear-gradient(180deg, transparent, rgba(8,8,9,.72) 38.2%, rgba(8,8,9,.97)); }
+  .card .meta { font-size:var(--f-1); color:var(--accent); letter-spacing:.04em; font-weight:600; }
+  .card .ttl { font-size:var(--f0); font-weight:700; line-height:1.382; margin-top:3px; }
+  .card .role { font-size:var(--f-1); color:#b9b4a9; margin-top:2px; }
+  .card .play { position:absolute; top:var(--s3); right:var(--s3); width:34px; height:34px; border-radius:50%; background:rgba(12,12,13,.55);
+    display:grid; place-items:center; border:1px solid rgba(239,234,224,.35); opacity:0; transform:scale(.9); transition:.25s; }
+  .card:hover .play, .card:focus-visible .play { opacity:1; transform:none; }
+
+  /* 대표작: 위쪽은 61.8 : 38.2, 큰 카드는 황금 직사각형 */
+  .feat { margin-top:var(--s6); display:grid; gap:var(--s3); }
+  .feat-top { display:grid; grid-template-columns:61.8fr 38.2fr; gap:var(--s3); }
+  .feat-top .big { aspect-ratio:1.618/1; }
+  .feat-top .big .thumb, .feat-side .card .thumb { height:100%; aspect-ratio:auto; }
+  .feat-top .big .ttl { font-size:clamp(var(--f1), 2.2vw, var(--f2)); }
+  .feat-top .big .info { padding:var(--s7) var(--s5) var(--s4); }
+  .feat-side { display:grid; grid-template-rows:minmax(0,1fr) minmax(0,1fr); gap:var(--s3); min-height:0; }
+  .feat-side .card { min-height:0; height:100%; }
+  .feat-side .card .thumb { position:absolute; inset:0; }
+  .feat-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--s3); }
+
+  /* 전체 작업 */
+  .chips { display:flex; flex-wrap:wrap; gap:var(--s2); margin-top:var(--s5); }
+  .chip { padding:var(--s2) var(--s4); border-radius:999px; border:1px solid var(--line); color:var(--sub); font-size:13px; }
+  .chip:hover { color:var(--ink); border-color:#55524c; }
+  .chip.on { background:var(--ink); color:var(--bg); border-color:var(--ink); font-weight:600; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(233px, 1fr)); gap:var(--s5) var(--s3); margin-top:var(--s5); }
+  .grid .card { background:none; border-radius:0; overflow:visible; }
+  .grid .card .thumb { border-radius:8px; filter:saturate(.95) brightness(.92); }
+  .grid .card:hover .thumb, .grid .card:focus-visible .thumb { transform:none; filter:none; outline:1px solid var(--accent); outline-offset:3px; }
+  .grid .card .info { position:static; background:none; padding:var(--s3) 2px 0; display:block; }
+  .grid .card .play { top:var(--s2); right:var(--s2); }
+  .credits { margin-top:var(--s7); border-top:1px solid var(--line); }
+  .credits .row { display:grid; grid-template-columns:89px 1fr auto; gap:var(--s4); padding:var(--s3) 0; border-bottom:1px solid var(--line); align-items:baseline; }
+  .credits .y { color:var(--dim); font-variant-numeric:tabular-nums; }
+  .credits .c { color:var(--sub); font-size:13px; text-align:right; }
+
+  /* 수상 */
+  .awards { background:var(--surface); }
+  .laurels { display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--s4); margin-top:var(--s6); }
+  .laurel { position:relative; text-align:center; padding:var(--s5) var(--s6); min-height:144px; display:flex; flex-direction:column; justify-content:center; }
+  .laurel svg { position:absolute; top:50%; width:46px; height:112px; transform:translateY(-50%); color:var(--accent); opacity:.85; }
+  .laurel svg.l { left:0; } .laurel svg.r { right:0; transform:translateY(-50%) scaleX(-1); }
+  .laurel .fest { font-family:var(--display); font-size:var(--f-2); letter-spacing:.14em; color:var(--accent); line-height:1.618; text-transform:uppercase; }
+  .laurel .prize { font-size:var(--f0); font-weight:700; margin-top:var(--s2); line-height:1.382; }
+
+  /* 소개: 61.8 : 38.2 */
+  .about { display:grid; grid-template-columns:61.8fr 38.2fr; gap:clamp(var(--s5), 6vw, var(--s7)); align-items:start; }
+  .about p { color:#cfcabf; margin:var(--s4) 0 0; max-width:34em; }
+  .facts { display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--s3); margin-top:var(--s6); max-width:34em; }
+  .fact { border-top:1px solid var(--line); padding-top:var(--s3); }
+  .fact b { display:block; font-family:var(--display); font-size:clamp(var(--f1), 2.4vw, var(--f2)); color:var(--ink); letter-spacing:.02em; line-height:1.382; }
+  .fact span { color:var(--sub); font-size:var(--f-1); }
+  .svc { list-style:none; margin:0; padding:0; border-top:1px solid var(--line); }
+  .svc li { display:grid; grid-template-columns:34px 1fr; gap:var(--s2); padding:var(--s4) 0; border-bottom:1px solid var(--line); }
+  .svc .n { font-family:var(--display); font-size:var(--f-2); color:var(--dim); padding-top:7px; }
+  .svc b { display:block; font-size:var(--f1); line-height:1.382; }
+  .svc span { color:var(--sub); font-size:13px; }
+
+  /* 강의 */
+  .teach { background:var(--surface); }
+  .teach .rows { margin-top:var(--s6); border-top:1px solid var(--line); }
+  .teach .row { display:grid; grid-template-columns:89px 1fr; gap:var(--s4); padding:var(--s4) 0; border-bottom:1px solid var(--line); }
+  .teach .y { font-family:var(--display); font-size:var(--f-1); color:var(--accent); padding-top:6px; }
+  .teach b { font-size:var(--f1); line-height:1.382; }
+  .teach span { display:block; color:var(--sub); font-size:13px; margin-top:2px; }
+
+  /* 연락 */
+  .contact { text-align:center; }
+  .contact h2 { font-size:clamp(var(--f3), 6vw, var(--f4)); letter-spacing:-.03em; }
+  .contact .lines { display:flex; flex-wrap:wrap; justify-content:center; gap:var(--s3) var(--s6); margin-top:var(--s6); font-size:clamp(var(--f1), 2.2vw, var(--f2)); font-weight:600; }
+  .contact .lines a { border-bottom:1px solid var(--line); padding-bottom:var(--s1); }
+  .contact .lines a:hover { border-color:var(--accent); color:var(--accent); }
+  .contact small { display:block; color:var(--sub); margin-top:var(--s5); font-size:13px; }
+  footer { border-top:1px solid var(--line); padding:var(--s4) 0 var(--s5); color:var(--dim); font-size:var(--f-1); }
+  footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:var(--s2); }
+
+  /* 영상 재생 창 */
+  .modal { position:fixed; inset:0; z-index:100; background:rgba(5,5,6,.92); display:none; place-items:center; padding:5vw; }
+  .modal.on { display:grid; }
+  .modal .box { width:min(1180px, 100%); }
+  .modal .frame { aspect-ratio:16/9; background:#000; border-radius:13px; overflow:hidden; }
+  .modal iframe, .modal video { width:100%; height:100%; border:0; display:block; background:#000; }
+  .modal .cap { display:flex; justify-content:space-between; gap:var(--s4); margin-top:var(--s3); color:var(--sub); font-size:13px; }
+  .modal .cap b { color:var(--ink); font-size:var(--f0); }
+  .modal .x { position:absolute; top:var(--s4); right:var(--s4); font-size:34px; line-height:1; color:var(--ink); padding:var(--s2); }
+
+  .rv { opacity:0; transform:translateY(21px); transition:opacity .8s, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .rv.in { opacity:1; transform:none; }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+
+  @media (max-width: 860px) {
+    .menu a:not(.cta) { display:none; }
+    .lead, .hero .text { max-width:none; }
+    .hero .wrap { padding-top:max(61.8svh - 89px, 233px); }
+    .feat-top { grid-template-columns:1fr; }
+    .feat-top .big { aspect-ratio:16/9; }
+    .feat-side { grid-template-rows:auto; }
+    .feat-side .card { height:auto; }
+    .feat-side .card .thumb { position:static; height:auto; aspect-ratio:16/9; }
+    .feat-row { grid-template-columns:1fr; }
+    .laurels { grid-template-columns:1fr; }
+    .about { grid-template-columns:1fr; }
+    .credits .row { grid-template-columns:55px 1fr; }
+    .credits .c { grid-column:2; text-align:left; }
+    .teach .row { grid-template-columns:55px 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; } .rv { opacity:1; transform:none; transition:none; } .card .thumb { transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 68 44"><circle cx="22" cy="22" r="20" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="46" cy="22" r="20" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
+  <symbol id="laurel" viewBox="0 0 46 112">
+    <path d="M38 108 C10 92 2 60 14 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    <g fill="currentColor">
+      <ellipse cx="13" cy="24" rx="4.2" ry="10" transform="rotate(18 13 24)"/>
+      <ellipse cx="8" cy="42" rx="4.2" ry="10" transform="rotate(-6 8 42)"/>
+      <ellipse cx="8" cy="61" rx="4.2" ry="10" transform="rotate(-26 8 61)"/>
+      <ellipse cx="14" cy="79" rx="4.2" ry="10" transform="rotate(-44 14 79)"/>
+      <ellipse cx="25" cy="95" rx="4.2" ry="10" transform="rotate(-62 25 95)"/>
+      <ellipse cx="23" cy="30" rx="3.4" ry="8" transform="rotate(48 23 30)"/>
+      <ellipse cx="20" cy="48" rx="3.4" ry="8" transform="rotate(34 20 48)"/>
+      <ellipse cx="22" cy="66" rx="3.4" ry="8" transform="rotate(14 22 66)"/>
+      <ellipse cx="29" cy="82" rx="3.4" ry="8" transform="rotate(-8 29 82)"/>
+    </g>
+  </symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="AYIN STUDIO 처음으로">
+      <svg><use href="#mark"/></svg><span>AYIN STUDIO</span>
+    </a>
+    <nav class="menu">
+      <a href="#work">Work</a><a href="#awards">Awards</a><a href="#about">About</a><a href="#teach">Class</a>
+      <a class="cta" href="#contact">문의하기</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="bg" id="heroBg"></div>
+    <div class="shade"></div>
+    <div class="wrap"><div class="text">
+      <div class="eyebrow">Video Production · Yongin, Korea</div>
+      <h1>전하고 싶은 이야기를<br><em>보이는 영상</em>으로.</h1>
+      <p>아인스튜디오는 기획부터 촬영, 편집까지 한 호흡으로 만드는 영상 제작 스튜디오입니다. 공공기관, 교육기관, 방송, 지역 행사의 영상을 만들어 왔습니다.</p>
+      <div class="btns">
+        <button class="btn fill" id="reelBtn" type="button"><svg width="10" height="12" viewBox="0 0 12 14" aria-hidden="true"><path d="M0 0l12 7-12 7z" fill="currentColor"/></svg>쇼릴 보기</button>
+        <a class="btn" href="#work">작업 보기</a>
+        <a class="btn" href="#contact">제작 문의</a>
+      </div>
+    </div></div>
+  </section>
+
+  <div class="clients">
+    <div class="wrap">
+      <span class="eyebrow">Worked with</span>
+      <ul>
+        <li>국민연금공단</li><li>강원특별자치도교육청</li><li>MG새마을금고</li><li>서울 강북구청</li><li>숭의여자대학교</li><li>CTS · C채널</li>
+      </ul>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="rv">
+        <div class="eyebrow">Selected Work</div>
+        <h2>대표 작업</h2>
+        <p class="lead">썸네일을 누르면 영상이 바로 재생됩니다.</p>
+      </div>
+      <div class="feat rv" id="feat"></div>
+
+      <div class="rv" style="margin-top:clamp(72px,9vw,120px)">
+        <div class="eyebrow">All Work</div>
+        <h2>전체 작업</h2>
+        <div class="chips" id="chips" role="tablist" aria-label="작업 분류"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+
+      <div class="credits rv" id="credits"></div>
+    </div>
+  </section>
+
+  <section class="awards" id="awards">
+    <div class="wrap">
+      <div class="rv">
+        <div class="eyebrow">Awards</div>
+        <h2>단편 영화 「물방울」<br>미국 5개 영화제 6회 수상</h2>
+        <p class="lead">촬영과 편집을 맡은 단편 영화 「물방울(A Drop of Water)」이 2022~2023년 미국의 기독교 영화제들에서 수상했습니다.</p>
+      </div>
+      <div class="laurels rv">
+        <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
+          <div class="fest">Christian Worldview<br>Film Festival 2022</div><div class="prize">단편 영화 부문 최우수상<br>관객 투표 부문 우수상</div></div>
+        <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
+          <div class="fest">Christian Family<br>Film Festival 2022</div><div class="prize">단편 복음 영화 부문 은상</div></div>
+        <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
+          <div class="fest">Int'l Christian Film<br>&amp; Music Festival 2023</div><div class="prize">가장 영감을 주는<br>다큐멘터리 수상</div></div>
+        <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
+          <div class="fest">Content Film Festival<br>&amp; Media Summit 2022</div><div class="prize">박해 부문 공식 수상작</div></div>
+        <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
+          <div class="fest">Int'l Christian<br>Visual Media 2022</div><div class="prize">학생 영화 부문 동상</div></div>
+        <div class="laurel"><svg class="l"><use href="#laurel"/></svg><svg class="r"><use href="#laurel"/></svg>
+          <div class="fest">Christian Georgia<br>Film Festival 2022</div><div class="prize">최종 후보작</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about">
+      <div class="rv">
+        <div class="eyebrow">About</div>
+        <h2>한 사람이 끝까지<br>책임지는 제작</h2>
+        <p>아인스튜디오는 이찬우 PD가 운영하는 영상 제작 스튜디오입니다. 2020년부터 공공기관의 제도 안내 영상, 대학의 소개 영상, 방송 프로그램, 지역 축제와 교육 행사의 기록 영상을 만들어 왔습니다.</p>
+        <p>기획 회의부터 촬영, 편집, 납품까지 같은 사람이 맡기 때문에 의도가 중간에 흐려지지 않습니다. 처음 영상을 맡기는 기관도 일정과 예산 안에서 편하게 진행할 수 있도록 돕습니다.</p>
+        <div class="facts">
+          <div class="fact"><b>2020</b><span>제작 시작</span></div>
+          <div class="fact"><b>6</b><span>영화제 수상</span></div>
+          <div class="fact"><b>1 STOP</b><span>기획 · 촬영 · 편집</span></div>
+        </div>
+      </div>
+      <ul class="svc rv">
+        <li><span class="n">01</span><div><b>홍보 · 소개 영상</b><span>기관, 학교, 단체를 처음 만나는 사람에게 보여 줄 영상</span></div></li>
+        <li><span class="n">02</span><div><b>행사 스케치 · 기록</b><span>축제, 캠프, 발표회, 포럼의 현장을 담는 영상</span></div></li>
+        <li><span class="n">03</span><div><b>교육 · 안내 영상</b><span>제도와 절차를 쉽게 풀어 주는 설명 영상</span></div></li>
+        <li><span class="n">04</span><div><b>숏폼 · SNS 콘텐츠</b><span>세로형 시리즈와 짧은 홍보 클립</span></div></li>
+        <li><span class="n">05</span><div><b>드라마 · 뮤직비디오 · 공연 실황</b><span>연출이 필요한 영상과 무대 촬영</span></div></li>
+        <li><span class="n">06</span><div><b>영상 교육 · 강의</b><span>청소년과 교사를 위한 영상 제작 수업</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="teach" id="teach">
+    <div class="wrap">
+      <div class="rv">
+        <div class="eyebrow">Class</div>
+        <h2>영상을 가르칩니다</h2>
+        <p class="lead">현장에서 쓰는 방식 그대로, 이야기 짜기부터 촬영과 편집까지 직접 해 보는 수업을 합니다.</p>
+      </div>
+      <div class="rows rv">
+        <div class="row"><span class="y">2025</span><div><b>천안한들초등학교 6학년 영화 수업</b><span>6주 과정 · 이야기 구성부터 촬영, 편집까지</span></div></div>
+        <div class="row"><span class="y">2024</span><div><b>천안한들초등학교 6학년 영화 수업</b><span>6주 과정</span></div></div>
+        <div class="row"><span class="y">2023</span><div><b>「미디어 크리에이터」 과정</b><span>10주 과정 · 청소년 미디어부 학생과 대안학교 교사 대상</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap rv">
+      <div class="eyebrow">Contact</div>
+      <h2>영상이 필요하신가요?</h2>
+      <div class="lines">
+        <a href="tel:01033235045">010-3323-5045</a>
+        <a href="mailto:ayinstudio1@gmail.com">ayinstudio1@gmail.com</a>
+      </div>
+      <small>이찬우 PD · 경기도 용인시 기흥구 · 견적과 일정 문의는 전화나 이메일로 편하게 주세요.</small>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 AYIN STUDIO 아인스튜디오</span><span>사업자등록번호 411-33-13232 · 대표 이찬우</span></div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="영상 재생">
+  <button class="x" id="mx" aria-label="닫기">×</button>
+  <div class="box">
+    <div class="frame" id="mframe"></div>
+    <div class="cap"><div><b id="mt"></b><br><span id="mr"></span></div><div id="mc" style="text-align:right"></div></div>
+  </div>
+</div>
+
+<script src="works.js"></script>
+<script>
+(function () {
+  var W = window.WORKS, C = window.CATEGORIES, K = window.CREDITS;
+  var thumb = function (id) { return "https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg"; };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+  function card(w) {
+    return '<button class="card" data-yt="' + w.yt + '" aria-label="' + esc(w.title) + ' 재생">' +
+      '<img class="thumb" loading="lazy" src="' + thumb(w.yt) + '" alt="" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + w.yt + '/hqdefault.jpg\'">' +
+      '<span class="play" aria-hidden="true"><svg width="12" height="14" viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z" fill="#efeae0"/></svg></span>' +
+      '<span class="info"><span class="meta">' + w.year + ' · ' + esc(w.client) + '</span>' +
+      '<span class="ttl" style="display:block">' + esc(w.title) + '</span><span class="role" style="display:block">' + esc(w.role) + '</span></span></button>';
+  }
+  // 대표작
+  var feat = W.filter(function (w) { return w.featured; }).sort(function (a, b) { return a.featured - b.featured; });
+  var big = card(feat[0]).replace('class="card"', 'class="card big"');
+  document.getElementById("feat").innerHTML =
+    '<div class="feat-top">' + big + '<div class="feat-side">' + feat.slice(1, 3).map(card).join("") + '</div></div>' +
+    '<div class="feat-row">' + feat.slice(3).map(card).join("") + '</div>';
+  // 전체 작업 + 분류
+  var grid = document.getElementById("grid"), chips = document.getElementById("chips"), cur = "all";
+  function draw() {
+    var list = W.filter(function (w) { return cur === "all" || w.cat === cur; });
+    grid.innerHTML = list.map(card).join("");
+  }
+  chips.innerHTML = C.map(function (c) {
+    var n = c.key === "all" ? W.length : W.filter(function (w) { return w.cat === c.key; }).length;
+    return '<button class="chip' + (c.key === "all" ? " on" : "") + '" role="tab" data-k="' + c.key + '">' + c.label + ' <span style="opacity:.55">' + n + '</span></button>';
+  }).join("");
+  chips.addEventListener("click", function (e) {
+    var b = e.target.closest(".chip"); if (!b) return;
+    cur = b.dataset.k; chips.querySelectorAll(".chip").forEach(function (x) { x.classList.toggle("on", x === b); }); draw();
+  });
+  draw();
+  // 링크 없는 이력
+  document.getElementById("credits").innerHTML = K.map(function (k) {
+    return '<div class="row"><span class="y">' + k.year + '</span><span>' + esc(k.title) + '</span><span class="c">' + esc(k.client) + '</span></div>';
+  }).join("");
+
+  // 재생 창
+  var modal = document.getElementById("modal"), frame = document.getElementById("mframe"), last = null;
+  function open(id, el) {
+    var w = W.filter(function (x) { return x.yt === id; })[0]; if (!w) return;
+    last = el;
+    frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="' + esc(w.title) + '"></iframe>';
+    document.getElementById("mt").textContent = w.title;
+    document.getElementById("mr").textContent = w.role;
+    document.getElementById("mc").textContent = w.year + " · " + w.client;
+    modal.classList.add("on"); document.body.style.overflow = "hidden"; document.getElementById("mx").focus();
+  }
+  function openReel(el) {
+    last = el;
+    frame.innerHTML = '<video src="assets/showreel.mp4" poster="assets/hero.jpg" controls autoplay playsinline></video>';
+    document.getElementById("mt").textContent = "AYIN STUDIO SHOWREEL 2026";
+    document.getElementById("mr").textContent = "행사 · 홍보 · 공공 · 드라마 · 공연 작업 모음";
+    document.getElementById("mc").textContent = "1분 2초";
+    modal.classList.add("on"); document.body.style.overflow = "hidden"; document.getElementById("mx").focus();
+    if (heroV) heroV.pause();
+  }
+  function close() { modal.classList.remove("on"); frame.innerHTML = ""; document.body.style.overflow = ""; if (last) last.focus(); if (heroV) heroV.play().catch(function () {}); }
+  document.addEventListener("click", function (e) {
+    var r = e.target.closest("#reelBtn"); if (r) { openReel(r); return; }
+    var c = e.target.closest(".card"); if (c) { open(c.dataset.yt, c); return; }
+    if (e.target === modal || e.target.id === "mx") close();
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && modal.classList.contains("on")) close(); });
+
+  // 첫 화면 배경: 쇼릴 장면 모음 (소리 없이 반복). 영상이 준비되기 전에는 정지 화면을 보여 줌
+  var bg = document.getElementById("heroBg"), heroV = null;
+  bg.style.backgroundImage = "url(assets/hero.jpg)";
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    heroV = document.createElement("video");
+    heroV.muted = true; heroV.loop = true; heroV.autoplay = true; heroV.playsInline = true;
+    heroV.setAttribute("muted", ""); heroV.setAttribute("playsinline", ""); heroV.setAttribute("aria-hidden", "true");
+    heroV.preload = "auto"; heroV.poster = "assets/hero.jpg"; heroV.src = "assets/hero.mp4";
+    heroV.addEventListener("playing", function () { heroV.classList.add("on"); }, { once: true });
+    bg.appendChild(heroV);
+    heroV.play().catch(function () {});
+  }
+
+  // 메뉴 배경, 등장 효과
+  var nav = document.getElementById("nav");
+  var onScroll = function () { nav.classList.toggle("solid", window.scrollY > 40); };
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }); }, { threshold: 0.12 });
+    document.querySelectorAll(".rv").forEach(function (x) { io.observe(x); });
+  } else { document.querySelectorAll(".rv").forEach(function (x) { x.classList.add("in"); }); }
+})();
+</script>
+</body>
+</html>
